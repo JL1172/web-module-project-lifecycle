@@ -78,7 +78,7 @@ export default class App extends React.Component {
         return {...n, completed : !n.completed}
       } return n;
     })})}
-  /* 
+  /*
   //!this is one method
    patchData(`http://localhost:9000/api/todos/${idOfItem}`)
      .then(res=> {
@@ -89,7 +89,7 @@ export default class App extends React.Component {
      })
    }
     //!this is one method
-   */
+    */
   }
   clear = e => {
     const filter = this.state.list.filter(n=> !n.completed);
@@ -105,6 +105,7 @@ export default class App extends React.Component {
       this.setState({visible2 : true, messageTodo : name[0].name})
     }
   }
+  //*most importantone
   finishEdit = () => {
     const newObject =  {
       name : this.state.patchValue,
@@ -114,11 +115,11 @@ export default class App extends React.Component {
     postData(URL,newObject).then(res=> { 
       this.setState({...this.state, list : this.state.list.map(n=> {
           if (n.id === newObject.id) {
-            console.log(n.id,newObject.id)
             return {...n, name : newObject.name, completed : newObject.completed}
           }
           return n;
         }),addedTodo : "", visible2 : false})})}
+    //*most importantone
   //!methods
   componentDidMount() {
     fetchData().then(res=> {
