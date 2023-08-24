@@ -44,6 +44,9 @@ export default class App extends React.Component {
   change = e => {
     this.setState({...this.state, addedTodo : e.target.value})
   }
+  changeSelect = e => {
+    this.setState({...this.state, selection : e.target.value})
+  }
   submit = e => {
     e.preventDefault();
     const newObject = {
@@ -68,7 +71,7 @@ export default class App extends React.Component {
     this.setState({...this.state, list : filter})
   }
   edit = e => {
-
+    this.setState({visible : !this.state.visible})
   }
   //!methods
   componentDidMount() {
@@ -83,7 +86,7 @@ export default class App extends React.Component {
         <TodoList toggle = {this.toggle} list = {this.state.list}/>
         <Form list = {this.state.list} edit = {this.edit} clear = {this.clear}
          addedTodo = {this.state.addedTodo} visible = {this.state.visible}
-         selection = {this.state.selection}
+         selection = {this.state.selection} changeSelect = {this.changeSelect}
         submit = {this.submit} change = {this.change} />
       </div>
     )

@@ -11,9 +11,12 @@ export default class Form extends React.Component {
           <input type="submit" value = "Add"/>
         </form>
         <button onClick={this.props.clear}>Clear Completed</button>
-        <button onClick={this.props.edit}>Edit</button>
-        {<select id = "select" value = {this.props.selected}>
-
+        <button onClick={this.props.edit}>{this.props.visible ? "Click to exit edit" : "Edit"}</button>
+        {this.props.visible && <select id = "select" value = {this.props.selection} onChange={this.props.changeSelect}>
+          <option value = "">--Select--</option>
+            {this.props.list.map(n => {
+              return <option key = {n.id} value = {n.id}>{n.name}</option>
+            })}
           </select>}
       </div>
     )
