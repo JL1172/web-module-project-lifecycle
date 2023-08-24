@@ -113,21 +113,20 @@ export default class App extends React.Component {
       completed : false,
     }
     postData(URL,newObject).then(res=> { 
-      this.setState({...this.state, list : this.state.list.map(n=> {
+      this.setState({...this.state, list :
+         this.state.list.map(n=> {
           if (n.id === newObject.id) {
             return {...n, name : newObject.name, completed : newObject.completed}
           }
           return n;
-        }),addedTodo : "", visible2 : false})})}
+        }),addedTodo : "", visible2 : false,patchValue : "", selection : ""})})}
     //*most importantone
   //!methods
   componentDidMount() {
     fetchData().then(res=> {
       this.setState({...this.state, message : res.message, list: res.data.map(n=> {
         return {...n, completed : false}
-      })})
-    })
-  }
+      })})})}
   render() {
     return (
       <div>
