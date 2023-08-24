@@ -12,6 +12,9 @@ export default class Form extends React.Component {
         </form>
         <button onClick={this.props.clear}>Clear Completed</button>
         <button onClick={this.props.edit}>Edit</button>
+        {<select id = "select" value = {this.props.selected}>
+
+          </select>}
       </div>
     )
   }

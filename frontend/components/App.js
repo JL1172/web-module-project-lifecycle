@@ -21,6 +21,14 @@ async function postData(URL,obj) {
     return console.log(new Error); 
   }
 }
+async function patchData(URL,obj) {
+  const res = await axios.patch(URL,obj)
+  try {
+    return res.data;
+  } catch {
+    return console.log(new Error)
+  }
+}
 export default class App extends React.Component {
   constructor() {
     super();
@@ -28,6 +36,8 @@ export default class App extends React.Component {
       message : "",
       list : [],
       addedTodo : "",
+      visible : false,
+      selection : "",
     }
   }
   //!methods
@@ -54,7 +64,11 @@ export default class App extends React.Component {
     })})
   }
   clear = e => {
-   
+    const filter = this.state.list.filter(n=> !n.completed);
+    this.setState({...this.state, list : filter})
+  }
+  edit = e => {
+
   }
   //!methods
   componentDidMount() {
@@ -67,7 +81,9 @@ export default class App extends React.Component {
       <div>
         <h2>{this.state.message}</h2>
         <TodoList toggle = {this.toggle} list = {this.state.list}/>
-        <Form clear = {this.clear} addedTodo = {this.state.addedTodo}
+        <Form list = {this.state.list} edit = {this.edit} clear = {this.clear}
+         addedTodo = {this.state.addedTodo} visible = {this.state.visible}
+         selection = {this.state.selection}
         submit = {this.submit} change = {this.change} />
       </div>
     )
