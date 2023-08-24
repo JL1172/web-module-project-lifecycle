@@ -41,9 +41,11 @@ export default class App extends React.Component {
       selection : "",
       disable : false,
       messageTodo : "",
+      patchValue : "",
     }
   }
   //!methods
+  //!change handlers
   change = e => {
     if (this.state.disable) return;
     this.setState({...this.state, addedTodo : e.target.value})
@@ -51,6 +53,10 @@ export default class App extends React.Component {
   changeSelect = e => {
     this.setState({...this.state, selection : e.target.value})
   }
+  patchChange = e => {
+    this.setState({...this.state, patchValue : e.target.value})
+  }
+  //!change handlers
   submit = e => {
     e.preventDefault();
     const newObject = {
@@ -72,6 +78,18 @@ export default class App extends React.Component {
         return {...n, completed : !n.completed}
       } return n;
     })})}
+  /* 
+  //!this is one method
+   patchData(`http://localhost:9000/api/todos/${idOfItem}`)
+     .then(res=> {
+       console.log(res.data)
+     })
+     .catch(err=> {
+       console.log(err + " patch did not work");
+     })
+   }
+    //!this is one method
+   */
   }
   clear = e => {
     const filter = this.state.list.filter(n=> !n.completed);
@@ -87,10 +105,26 @@ export default class App extends React.Component {
       this.setState({visible2 : true, messageTodo : name[0].name})
     }
   }
+  finishEdit = () => {
+    const newObject =  {
+      name : this.state.patchValue,
+      id : this.state.selection,
+      completed : false,
+    }
+    postData(URL,newObject).then(res=> { 
+      this.setState({...this.state, list : this.state.list.map(n=> {
+          if (n.id === newObject.id) {
+            console.log(n.id,newObject.id)
+            return {...n, name : newObject.name, completed : newObject.completed}
+          }
+          return n;
+        }),addedTodo : "", visible2 : false})})}
   //!methods
   componentDidMount() {
     fetchData().then(res=> {
-      this.setState({...this.state, message : res.message, list : [...this.state.list, ...res.data]})
+      this.setState({...this.state, message : res.message, list: res.data.map(n=> {
+        return {...n, completed : false}
+      })})
     })
   }
   render() {
@@ -100,9 +134,10 @@ export default class App extends React.Component {
         <TodoList toggle = {this.toggle} list = {this.state.list}/>
         <Form list = {this.state.list} edit = {this.edit} clear = {this.clear}
          addedTodo = {this.state.addedTodo} visible = {this.state.visible}
-         visible2 = {this.state.visible2} edit2 = {this.edit2}
+         visible2 = {this.state.visible2} edit2 = {this.edit2} patchChange = {this.patchChange} patchValue = {this.state.patchValue}
          selection = {this.state.selection} changeSelect = {this.changeSelect} messageTodo = {this.state.messageTodo}
-        submit = {this.submit} change = {this.change} disable = {this.state.disable}/>
+        submit = {this.submit} change = {this.change} disable = {this.state.disable}
+        finishEdit = {this.finishEdit} />
       </div>
     )
   }

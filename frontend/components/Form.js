@@ -20,6 +20,7 @@ export default class Form extends React.Component {
           </select>}
           {this.props.visible2 && <label>What are you replacing {this.props.messageTodo} with</label>}
           {this.props.visible2 && <input type = "text" value = {this.props.patchValue} onChange={this.props.patchChange} />}
+          {this.props.visible2 && <button onClick={this.props.finishEdit}>Finish Edit</button>}
       </div>
     )
   }
