@@ -41,9 +41,8 @@ export default class App extends React.Component {
       completed : false,
     }
     postData(URL,newObject).then(res=> {
-      console.log(res)
+      this.setState({...this.state, list : [...this.state.list, res.data],addedTodo : ""})
     })
-    
   }
   componentDidMount() {
     fetchData().then(res=> {
@@ -55,7 +54,8 @@ export default class App extends React.Component {
       <div>
         <h2>{this.state.message}</h2>
         <TodoList list = {this.state.list}/>
-        <Form addedTodo = {this.state.addedTodo} />
+        <Form addedTodo = {this.state.addedTodo}
+        submit = {this.submit} change = {this.change} />
       </div>
     )
   }
