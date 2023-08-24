@@ -37,11 +37,14 @@ export default class App extends React.Component {
       list : [],
       addedTodo : "",
       visible : false,
+      visible2 : false,
       selection : "",
+      disable : false,
     }
   }
   //!methods
   change = e => {
+    if (this.state.disable) return;
     this.setState({...this.state, addedTodo : e.target.value})
   }
   changeSelect = e => {
@@ -59,19 +62,22 @@ export default class App extends React.Component {
     })
   }
   toggle = (e,idOfItem) => {
+    if (this.state.disable) {
+      return;
+    } else {
     e.target.classList.toggle("completed")
     this.setState({...this.state, list : this.state.list.map(n=> {
       if (n.id === idOfItem) {
         return {...n, completed : !n.completed}
       } return n;
-    })})
+    })})}
   }
   clear = e => {
     const filter = this.state.list.filter(n=> !n.completed);
     this.setState({...this.state, list : filter})
   }
   edit = e => {
-    this.setState({visible : !this.state.visible})
+    this.setState({visible : !this.state.visible, disable : !this.state.disable})
   }
   //!methods
   componentDidMount() {
@@ -86,8 +92,9 @@ export default class App extends React.Component {
         <TodoList toggle = {this.toggle} list = {this.state.list}/>
         <Form list = {this.state.list} edit = {this.edit} clear = {this.clear}
          addedTodo = {this.state.addedTodo} visible = {this.state.visible}
+         visible2 = {this.state.visible2} edit2 = {this.edit2}
          selection = {this.state.selection} changeSelect = {this.changeSelect}
-        submit = {this.submit} change = {this.change} />
+        submit = {this.submit} change = {this.change} disable = {this.state.disable}/>
       </div>
     )
   }
