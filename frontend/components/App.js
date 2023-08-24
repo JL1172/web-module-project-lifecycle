@@ -40,6 +40,7 @@ export default class App extends React.Component {
       visible2 : false,
       selection : "",
       disable : false,
+      messageTodo : "",
     }
   }
   //!methods
@@ -78,6 +79,13 @@ export default class App extends React.Component {
   }
   edit = e => {
     this.setState({visible : !this.state.visible, disable : !this.state.disable})
+    }
+  
+  edit2 = e => {
+    if (e.target.value) {
+      const name = this.state.list.filter(n => n.id === e.target.value)
+      this.setState({visible2 : true, messageTodo : name[0].name})
+    }
   }
   //!methods
   componentDidMount() {
@@ -93,7 +101,7 @@ export default class App extends React.Component {
         <Form list = {this.state.list} edit = {this.edit} clear = {this.clear}
          addedTodo = {this.state.addedTodo} visible = {this.state.visible}
          visible2 = {this.state.visible2} edit2 = {this.edit2}
-         selection = {this.state.selection} changeSelect = {this.changeSelect}
+         selection = {this.state.selection} changeSelect = {this.changeSelect} messageTodo = {this.state.messageTodo}
         submit = {this.submit} change = {this.change} disable = {this.state.disable}/>
       </div>
     )

@@ -12,12 +12,14 @@ export default class Form extends React.Component {
         </form>
         <button disabled = {this.props.disable} onClick={this.props.clear}>Clear Completed</button>
         <button onClick={this.props.edit}>{this.props.visible ? "Click to exit edit mode" : "Edit"}</button>
-        {this.props.visible && <select id = "select" value = {this.props.selection} onChange={this.props.changeSelect}>
+        {this.props.visible && <select onClick={(e)=>this.props.edit2(e)} id = "select" value = {this.props.selection} onChange={this.props.changeSelect} >
           <option value = "">--Select--</option>
             {this.props.list.map(n => {
-              return <option key = {n.id} value = {n.id}>{n.name}</option>
+              return <option  key = {n.id} value = {n.id}>{n.name}</option>
             })}
           </select>}
+          {this.props.visible2 && <label>What are you replacing {this.props.messageTodo} with</label>}
+          {this.props.visible2 && <input type = "text" value = {this.props.patchValue} onChange={this.props.patchChange} />}
       </div>
     )
   }
