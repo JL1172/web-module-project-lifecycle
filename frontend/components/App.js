@@ -30,6 +30,7 @@ export default class App extends React.Component {
       addedTodo : "",
     }
   }
+  //!methods
   change = e => {
     this.setState({...this.state, addedTodo : e.target.value})
   }
@@ -44,6 +45,18 @@ export default class App extends React.Component {
       this.setState({...this.state, list : [...this.state.list, res.data],addedTodo : ""})
     })
   }
+  toggle = (e,idOfItem) => {
+    e.target.classList.toggle("completed")
+    this.setState({...this.state, list : this.state.list.map(n=> {
+      if (n.id === idOfItem) {
+        return {...n, completed : !n.completed}
+      } return n;
+    })})
+  }
+  clear = e => {
+   
+  }
+  //!methods
   componentDidMount() {
     fetchData().then(res=> {
       this.setState({...this.state, message : res.message, list : [...this.state.list, ...res.data]})
@@ -53,8 +66,8 @@ export default class App extends React.Component {
     return (
       <div>
         <h2>{this.state.message}</h2>
-        <TodoList list = {this.state.list}/>
-        <Form addedTodo = {this.state.addedTodo}
+        <TodoList toggle = {this.toggle} list = {this.state.list}/>
+        <Form clear = {this.clear} addedTodo = {this.state.addedTodo}
         submit = {this.submit} change = {this.change} />
       </div>
     )
